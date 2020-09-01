@@ -14,7 +14,7 @@ public class UserLoginExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) throws Exception {
-        ExceptionResponse exceptionResonse=new ExceptionResponse(new Date(), ex.getMessage(), 
+        ExceptionResponse exceptionResonse=new ExceptionResponse(new Date(),"Internal Error Occurred", 
         		"Error exception response: Internal Server Error");
         return new ResponseEntity<Object>(exceptionResonse,HttpStatus.INTERNAL_SERVER_ERROR);
     }
