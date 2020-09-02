@@ -15,7 +15,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 	
 	@Override
 	public User checkUserLogin(User user) {
-		User loginUser = loginResource.findUser(user.getUsername(), user.getPassword());
+		User loginUser = loginResource.findUser(user.getEmailId(), user.getPassword());
 		return loginUser;
 	}
 
@@ -23,7 +23,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 	public UserDTO setUserDTO(User user) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserId(user.getUserId());
-		userDTO.setUserName(user.getUsername());
+		userDTO.setUserName(user.getEmailId());
 		return userDTO;
 	}
 

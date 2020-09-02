@@ -16,7 +16,7 @@ public class UserLoginJwtTokenServiceImpl implements UserLoginJwtTokenService{
 
 	@Override
 	public Map<String, String> generateJwtToken(User user) {
-		String token = Jwts.builder().setSubject(user.getUsername()).setIssuedAt(new Date())
+		String token = Jwts.builder().setSubject(user.getEmailId()).setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256,"scbpod2").compact();
 		Map<String,String> jwtMap = new HashMap<>();
 		jwtMap.put("token", token);

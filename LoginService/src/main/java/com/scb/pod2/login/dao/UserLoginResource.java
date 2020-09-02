@@ -10,7 +10,7 @@ import com.scb.pod2.login.model.User;
 @Repository
 public interface UserLoginResource extends JpaRepository<User, Integer>{
 	
-	@Query(value = "select * from user where username = :name and password = :pass", nativeQuery = true)
-	public User findUser(@Param("name") String username, @Param("pass") String password);
+	@Query(value = "select * from user where email_id = :mail and password = :pass", nativeQuery = true)
+	public User findUser(@Param("mail") String emailId, @Param("pass") String password);
 	
 }
