@@ -9,13 +9,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.scb.casestudy</groupId>
-	<artifactId>POD2-LMA-LOGINService</artifactId>
+	<artifactId>loan-login-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>POD2-LMA-LOGINService</name>
+	<name>loan-login-service</name>
 	<description>Loan management login service</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+	    <java.version>1.8</java.version>
+	    <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 
 	<dependencies>
