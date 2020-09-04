@@ -14,6 +14,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class UserLoginJwtTokenServiceImpl implements UserLoginJwtTokenService{
 
+	/*
+	 * Generating JWT token using email ID and return as response 
+	 * for the login request
+	 */
 	@Override
 	public Map<String, String> generateJwtToken(User user) {
 		String token = Jwts.builder().setSubject(user.getEmailId()).setIssuedAt(new Date())

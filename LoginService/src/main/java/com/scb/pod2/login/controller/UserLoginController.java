@@ -31,13 +31,17 @@ public class UserLoginController {
 	
 	private ResponseEntity<?> responseEntity;
 	
+	/*
+	 * Check the email id and password is present in DB
+	 * If present then generate JWT token and return OK
+	 * If not then throw custom exception and return UNAUTHORIZED
+	 */
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> loginUser(@RequestBody User user){
 		User userObj = loginService.checkUserLogin(user);
 		Map<String,String> tokenMap = null;
 		if(userObj != null) {
 			tokenMap = jwtTokenService.generateJwtToken(user);
-			//responseEntity = new ResponseEntity<>(loginService.setUserDTO(userObj), HttpStatus.OK);
 			responseEntity = new ResponseEntity<>(tokenMap,HttpStatus.OK);
 			logger.info("Login successfull");
 		}else {
@@ -47,10 +51,6 @@ public class UserLoginController {
 		return responseEntity;
 	}
 	
-	@GetMapping("/test")
-	public ResponseEntity<?> loginUserTest(){
-		responseEntity = new ResponseEntity<>("HELLO", HttpStatus.OK);
-		return responseEntity;
-	}
+	
 
 }
