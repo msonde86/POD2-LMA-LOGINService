@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scb.pod2.login.exception.UserNotFoundException;
 import com.scb.pod2.login.model.User;
-import com.scb.pod2.login.service.UserLoginJwtTokenService;
 import com.scb.pod2.login.service.UserLoginService;
 
 @RestController
@@ -25,8 +24,6 @@ public class UserLoginController {
 	private Logger logger = LoggerFactory.getLogger(UserLoginController.class);
 	@Autowired
 	private UserLoginService loginService;
-	@Autowired
-	private UserLoginJwtTokenService jwtTokenService;
 	
 	private ResponseEntity<?> responseEntity;
 	
@@ -37,11 +34,9 @@ public class UserLoginController {
 	 */
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> loginUser(@RequestBody User user){
-		User userObj = loginService.checkUserLogin(user);
-		Map<String,String> tokenMap = null;
-		if(userObj != null) {
-			tokenMap = jwtTokenService.generateJwtToken(user);
-			responseEntity = new ResponseEntity<>(tokenMap,HttpStatus.OK);
+		Map<String, String> jwtToken = loginService.checkUserLogin(user);
+		if(jwtToken != null) {
+			responseEntity = new ResponseEntity<>(jwtToken,HttpStatus.OK);
 			logger.info("Login successfull");
 		}else {
 			logger.error("Login failed");

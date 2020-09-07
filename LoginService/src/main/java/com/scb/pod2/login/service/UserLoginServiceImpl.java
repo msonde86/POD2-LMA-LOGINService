@@ -1,11 +1,18 @@
 package com.scb.pod2.login.service;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scb.pod2.login.dao.UserLoginResource;
 import com.scb.pod2.login.model.User;
 import com.scb.pod2.login.util.PasswordDataEncryption;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
@@ -19,9 +26,21 @@ public class UserLoginServiceImpl implements UserLoginService {
 	 * Check if the given credentials is present in DB
 	 */
 	@Override
-	public User checkUserLogin(User user) {
+	public Map<String, String> checkUserLogin(User user) {
 		User loginUser = loginResource.findUser(user.getEmailId(), encodePassword(user.getPassword()));
-		return loginUser;
+		Map<String,String> tokenMap = null;
+		if(loginUser != null) {
+			tokenMap = generateJwtToken(user);
+		}
+		return tokenMap;
+	}
+	
+	public Map<String, String> generateJwtToken(User user) {
+		String token = Jwts.builder().setSubject(user.getEmailId()).setIssuedAt(new Date())
+				.signWith(SignatureAlgorithm.HS256,"scbpod2").compact();
+		Map<String,String> jwtMap = new HashMap<>();
+		jwtMap.put("token", token);
+		return jwtMap;
 	}
 	
 
