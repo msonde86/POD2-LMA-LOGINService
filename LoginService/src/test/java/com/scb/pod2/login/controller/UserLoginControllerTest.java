@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.scb.pod2.login.dao.UserLoginResource;
 import com.scb.pod2.login.dto.UserDTO;
 import com.scb.pod2.login.service.UserLoginService;
 
@@ -31,6 +33,8 @@ import com.scb.pod2.login.service.UserLoginService;
 public class UserLoginControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
+	@Mock
+	private UserLoginResource resource;
 	
 	@MockBean
 	private UserLoginService userLoginService;
