@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.scb.pod2.login.model.User;
+import com.scb.pod2.login.dto.UserDTO;
 import com.scb.pod2.login.service.UserLoginService;
 
 
@@ -34,6 +34,7 @@ public class UserLoginControllerTest {
 	
 	@MockBean
 	private UserLoginService userLoginService;
+	
 	private Map<String, String> jwtToken;
 	
 	
@@ -47,13 +48,22 @@ public class UserLoginControllerTest {
 	@Test
 	public void loginUserTest() throws Exception {
 		String userJson = "{\"emailId\":\"vinothencode@gmail.com\",\"password\":\"password\"}";
-		Mockito.when(userLoginService.checkUserLogin(Mockito.any(User.class))).thenReturn(jwtToken);
+		Mockito.when(userLoginService.checkUserLogin(Mockito.any(UserDTO.class))).thenReturn(jwtToken);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/login/authenticate").
 				content(userJson).
 				contentType(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		System.out.println(result.getResponse().getContentAsString());
 		assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
 	}
+	@Test
+	public void loginUserTestNegative() throws Exception {
+		String userJson = "{\"emailId\":\"vinothencode@gmail.com\",\"password\":\"wrongpassword\"}";
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/login/authenticate").
+				content(userJson).
+				contentType(MediaType.APPLICATION_JSON);
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		assertEquals(HttpStatus.UNAUTHORIZED.value(), result.getResponse().getStatus());
+	}
+	
 	
 }

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scb.pod2.login.dto.UserDTO;
 import com.scb.pod2.login.exception.UserNotFoundException;
-import com.scb.pod2.login.model.User;
 import com.scb.pod2.login.service.UserLoginService;
 
 @RestController
@@ -24,18 +24,17 @@ public class UserLoginController {
 	private Logger logger = LoggerFactory.getLogger(UserLoginController.class);
 	@Autowired
 	private UserLoginService loginService;
-	
-	private ResponseEntity<?> responseEntity;
-	
 	/*
 	 * Check the email id and password is present in DB
+	 * @param UserDTO object with emailID and password from client
 	 * If present then generate JWT token and return OK
 	 * If not then throw custom exception and return UNAUTHORIZED
 	 */
 	@PostMapping("/authenticate")
-	public ResponseEntity<?> loginUser(@RequestBody User user){
+	public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDTO user){
+		ResponseEntity<Map<String, String>> responseEntity;
 		Map<String, String> jwtToken = loginService.checkUserLogin(user);
-		if(jwtToken != null) {
+		if(jwtToken != null && jwtToken.size()>0) {
 			responseEntity = new ResponseEntity<>(jwtToken,HttpStatus.OK);
 			logger.info("Login successfull");
 		}else {
