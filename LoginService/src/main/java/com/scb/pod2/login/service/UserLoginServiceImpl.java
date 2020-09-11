@@ -18,7 +18,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
-
+	
 	@Autowired
 	private UserLoginResource loginResource;
 	
@@ -26,6 +26,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 	 * Encode the password using base 64.
 	 * Check if the given credentials is present in DB
 	 * @param UserDTO object from controller
+	 * @return Map<String, String> containing JWT token
 	 */
 	@Override
 	public Map<String, String> checkUserLogin(UserDTO user) {
@@ -39,6 +40,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 	/*
 	 * Generate JWT token using the user emailID
 	 * @param User object fetched from repository
+	 * @return Map<String, String> containing JWT token
 	 */
 	public Map<String, String> generateJwtToken(User user) {
 		String token = Jwts.builder().setSubject(user.getEmailId()).setIssuedAt(new Date())
@@ -51,6 +53,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 	/*
 	 * Encode the password received from client end in controller
 	 * @param password from request body of UserDTO object
+	 * @return String of encoded password
 	 */
 	public String encodePassword(String password) {
 		return Base64.getUrlEncoder().encodeToString(password.getBytes(StandardCharsets.UTF_8));

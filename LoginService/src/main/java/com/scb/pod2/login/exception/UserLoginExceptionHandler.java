@@ -30,5 +30,14 @@ public class UserLoginExceptionHandler extends ResponseEntityExceptionHandler{
         		"Error exception response: Unknown user");
 		return new ResponseEntity<>(exceptionResonse,HttpStatus.UNAUTHORIZED);
 	}
+	/*
+	 * Exception handler method for service unavailable
+	 */
+	@ExceptionHandler(FallbackException.class)
+	public final ResponseEntity<ExceptionResponse> fallbackException(Exception ex, WebRequest request){
+		ExceptionResponse exceptionResonse=new ExceptionResponse(new Date(), ex.getMessage(), 
+        		"Login service not available");
+		return new ResponseEntity<>(exceptionResonse,HttpStatus.SERVICE_UNAVAILABLE);
+	}
 	
 }
