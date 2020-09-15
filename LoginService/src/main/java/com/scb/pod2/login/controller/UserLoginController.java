@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.scb.pod2.login.dto.UserDTO;
-import com.scb.pod2.login.exception.FallbackException;
 import com.scb.pod2.login.exception.UserNotFoundException;
 import com.scb.pod2.login.service.UserLoginService;
 
@@ -34,7 +32,6 @@ public class UserLoginController {
 	 * return ResponseEntity<Map<String, String>>
 	 */
 	@PostMapping("/authenticate")
-	@HystrixCommand(fallbackMethod = "loginUserFallback")
 	public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDTO user){
 		ResponseEntity<Map<String, String>> responseEntity;
 		Map<String, String> jwtToken = loginService.checkUserLogin(user);
@@ -47,15 +44,7 @@ public class UserLoginController {
 		}
 		return responseEntity;
 	}
-	/*
-	 * Fallback method for loginuser method
-	 * @param UserDTO object which we recive from client request
-	 * @return FallbackException with 503 status code
-	 */
-	public ResponseEntity<Map<String, String>> loginUserFallback(UserDTO user){
-		logger.error("Falback method of loginUser method executed.");
-		throw new FallbackException("Oops! Something went wrong.");
-	}
+	
 	
 
 }
