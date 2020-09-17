@@ -1,6 +1,7 @@
 package com.scb.pod2.login.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -66,5 +67,25 @@ public class UserLoginServiceImplTest {
 		String encodedPassword=loginService.encodePassword(userDto.getPassword());
 		assertNotNull(encodedPassword);
 		assertEquals(user.getPassword(), encodedPassword);
+	}
+	
+	@Test
+	public void testCheckUserLoginNotNull() {
+		Mockito.when(loginResource.findUser(Mockito.anyString(), Mockito.anyString())).thenReturn(new User());
+		UserDTO user = new UserDTO("mithila.s@sss.com","12345");
+		
+		Map tokenMap = loginService.checkUserLogin(user);
+		
+		assertNotNull(tokenMap);
+	}
+	
+	@Test
+	public void testCheckUserLoginNull() {
+		Mockito.when(loginResource.findUser(Mockito.anyString(), Mockito.anyString())).thenReturn(null);
+		UserDTO user = new UserDTO("mithila.s@sss.com","12345");
+		
+		Map tokenMap = loginService.checkUserLogin(user);
+		
+		assertNull(tokenMap);
 	}
 }
