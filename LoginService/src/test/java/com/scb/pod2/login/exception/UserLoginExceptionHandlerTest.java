@@ -39,6 +39,9 @@ public class UserLoginExceptionHandlerTest {
 	public void TestFallbackException() {
 		ResponseEntity re = uleh.fallbackException(Mockito.mock(Exception.class), webRequest);
 		
+		FallbackException fb = new FallbackException("Testing");
+		
+		Assert.assertNotNull(fb);
 		Assert.assertNotNull(re);
 		Assert.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, re.getStatusCode());
 	}
